@@ -74,7 +74,7 @@ export default function HomePage() {
               className="text-xs md:text-sm tracking-wide uppercase"
               style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 600, color: '#0EA5E9' }}
             >
-              Salem, Oregon • Professional Service
+              Salem, Oregon • Serving Salem & Surrounding Areas
             </p>
             <h1 
               className="text-4xl md:text-5xl lg:text-7xl tracking-wide uppercase leading-tight"

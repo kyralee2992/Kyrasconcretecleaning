@@ -8,7 +8,7 @@ export function ServiceAreaFooter() {
           className="text-2xl md:text-3xl lg:text-4xl tracking-wide uppercase"
           style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 700, color: 'white' }}
         >
-          Serving Salem
+          Serving Salem & Surrounding Areas
         </p>
       </div>
     </section>
