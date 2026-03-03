@@ -18,20 +18,11 @@ export const metadata: Metadata = {
     siteName: "Kyra Lee's Concrete Cleaning",
     title: "Pressure Washing Salem OR | Kyra Lee's Concrete Cleaning",
     description: "Owner-operated pressure washing in Salem, OR. Free on-site quote. Driveways, siding, walkways. Call (971) 510-0926.",
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: "Kyra Lee's Concrete Cleaning — Salem, Oregon pressure washing",
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: "Pressure Washing Salem OR | Kyra Lee's",
     description: "Owner-operated pressure washing in Salem, OR. Free on-site quote.",
-    images: ['/og-image.png'],
   },
 }
 
