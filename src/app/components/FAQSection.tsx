@@ -38,16 +38,14 @@ function FAQItem({ question, answer, isOpen, onToggle }: FAQItemProps) {
         </div>
       </button>
 
-      {isOpen && (
-        <div className="mt-4 pl-0 md:pr-12">
-          <p
-            className="text-base md:text-lg leading-relaxed"
-            style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}
-          >
-            {answer}
-          </p>
-        </div>
-      )}
+      <div className="mt-4 pl-0 md:pr-12" style={{ display: isOpen ? 'block' : 'none' }}>
+        <p
+          className="text-base md:text-lg leading-relaxed"
+          style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}
+        >
+          {answer}
+        </p>
+      </div>
     </div>
   );
 }

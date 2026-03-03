@@ -77,13 +77,19 @@ export default function HomePage() {
             >
               Salem, Oregon • Serving Salem & Surrounding Areas
             </p>
-            <h1 
+            <h1
               className="text-4xl md:text-5xl lg:text-7xl tracking-wide uppercase leading-tight"
               style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 700, color: '#0F172A' }}
             >
               REVIVE YOUR DRIVEWAY
             </h1>
-            <p 
+            <p
+              className="text-sm md:text-base tracking-wide uppercase"
+              style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 600, color: '#64748B' }}
+            >
+              Professional Pressure Washing &amp; Concrete Cleaning in Salem, OR
+            </p>
+            <p
               className="text-base md:text-lg lg:text-xl leading-relaxed"
               style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}
             >
