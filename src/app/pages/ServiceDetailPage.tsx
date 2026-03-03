@@ -1,7 +1,10 @@
-import { useParams, useNavigate } from 'react-router';
+'use client'
+import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Check, Phone, Mail } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { useEffect } from 'react';
+import sidingPhoto from '@/assets/15f88640adfffac6f4c4c23cef1352847d79fa3e.png';
+import concretePhoto from '@/assets/ea00718cedeea21fa429b442e35f79fd2abc1a33.png';
 
 interface ServiceDetail {
   slug: string;
@@ -24,7 +27,7 @@ const servicesData: ServiceDetail[] = [
     tagline: 'Gentle low-pressure cleaning',
     description: 'Safe "soft washing" for siding and exterior surfaces. Gentle low-pressure cleaning that protects your home.',
     fullDescription: 'Our professional soft washing service uses gentle, low-pressure techniques specifically designed for delicate siding materials. We remove dirt, mildew, and organic growth without the risk of damage from high-pressure washing. Safe for vinyl, wood, and all exterior surfaces while delivering stunning results.',
-    image: 'https://images.unsplash.com/photo-1770756051811-1612ac8bedfa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxob3VzZSUyMHNpZGluZyUyMGV4dGVyaW9yJTIwY2xlYW58ZW58MXx8fHwxNzcxNDI1OTU0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    image: sidingPhoto.src,
     features: [
       'Low-pressure washing safe for all siding types',
       'Removes dirt, mildew, and organic stains',
@@ -57,7 +60,7 @@ const servicesData: ServiceDetail[] = [
     tagline: 'High-pressure deep cleaning',
     description: 'Professional deep cleaning for concrete surfaces. Remove years of dirt, oil stains, and grime from driveways and walkways.',
     fullDescription: 'Our professional concrete deep cleaning service uses high-pressure washing equipment to blast away years of accumulated dirt, oil stains, and grime. We specialize in driveways, walkways, patios, and other concrete surfaces, delivering dramatic before-and-after results that restore your concrete to like-new condition.',
-    image: 'https://images.unsplash.com/photo-1654419189750-d3c4ef76df61?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb25jcmV0ZSUyMHN1cmZhY2UlMjBjbGVhbiUyMGRyaXZld2F5fGVufDF8fHx8MTc3MTQyNjAyM3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
+    image: concretePhoto.src,
     features: [
       'Professional high-pressure washing equipment',
       'Oil stain treatment and removal',
@@ -86,8 +89,8 @@ const servicesData: ServiceDetail[] = [
 ];
 
 export default function ServiceDetailPage() {
-  const { serviceSlug } = useParams();
-  const navigate = useNavigate();
+  const { serviceSlug } = useParams<{ serviceSlug: string }>();
+  const router = useRouter();
 
   const service = servicesData.find(s => s.slug === serviceSlug);
 
@@ -96,12 +99,12 @@ export default function ServiceDetailPage() {
   }, [serviceSlug]);
 
   if (!service) {
-    navigate('/404');
+    router.push('/404');
     return null;
   }
 
   const scrollToContact = () => {
-    navigate('/#contact');
+    router.push('/#contact');
   };
 
   return (
@@ -113,7 +116,7 @@ export default function ServiceDetailPage() {
       >
         <div className="flex items-center justify-between">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => router.push('/')}
             className="flex items-center gap-3 text-white hover:opacity-70 transition-opacity"
           >
             <ArrowLeft className="w-5 h-5" strokeWidth={2.5} />
@@ -125,7 +128,7 @@ export default function ServiceDetailPage() {
             </span>
           </button>
           <a
-            href="tel:5035559274"
+            href="tel:+19715100926"
             className="flex items-center gap-2 px-6 py-3 rounded-xl transition-all hover:opacity-90"
             style={{ backgroundColor: '#0EA5E9' }}
           >
@@ -353,7 +356,7 @@ export default function ServiceDetailPage() {
               Request Free Quote
             </button>
             <a
-              href="tel:5035559274"
+              href="tel:+19715100926"
               className="flex items-center justify-center gap-3 px-8 py-4 rounded-xl transition-all hover:bg-opacity-90 shadow-lg"
               style={{
                 backgroundColor: '#FACC15',

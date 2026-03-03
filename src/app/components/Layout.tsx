@@ -1,12 +1,11 @@
-import { Outlet } from 'react-router';
+'use client'
 import { DesktopNav } from './DesktopNav';
 import { MobileMenu } from './MobileMenu';
 import { MobileCTABar } from './MobileCTABar';
-import { CookieConsent } from './CookieConsent';
 import { BackToTop } from './BackToTop';
 import { useState } from 'react';
 
-export function Layout() {
+export function Layout({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const scrollToContact = () => {
@@ -35,13 +34,10 @@ export function Layout() {
       <MobileCTABar />
 
       {/* Page Content */}
-      <Outlet />
+      {children}
 
       {/* Back to Top Button */}
       <BackToTop />
-
-      {/* Cookie Consent Banner */}
-      <CookieConsent />
     </>
   );
 }

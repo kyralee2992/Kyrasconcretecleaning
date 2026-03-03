@@ -1,3 +1,4 @@
+'use client'
 import { Check, Zap, Shield, Mail, Phone, Globe, Clipboard, CalendarCheck } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { FAQSection } from '../components/FAQSection';
@@ -5,14 +6,14 @@ import { ContactForm } from '../components/ContactForm';
 import { ServiceAreaFooter } from '../components/ServiceAreaFooter';
 import { PricingSection } from '../components/PricingSection';
 import { IPadQuoteSection } from '../components/IPadQuoteSection';
-import { useNavigate } from 'react-router';
-import kyraPhoto from 'figma:asset/4738b3753998267d3f673fec1d4a80d90334099c.png';
-import heroHome from 'figma:asset/acc92dd8ae68382b3c6e165680bd51456c7102cb.png';
-import sidingPhoto from 'figma:asset/15f88640adfffac6f4c4c23cef1352847d79fa3e.png';
-import concretePhoto from 'figma:asset/ea00718cedeea21fa429b442e35f79fd2abc1a33.png';
+import { useRouter } from 'next/navigation';
+import kyraPhoto from '@/assets/4738b3753998267d3f673fec1d4a80d90334099c.png';
+import heroHome from '@/assets/acc92dd8ae68382b3c6e165680bd51456c7102cb.png';
+import sidingPhoto from '@/assets/15f88640adfffac6f4c4c23cef1352847d79fa3e.png';
+import concretePhoto from '@/assets/ea00718cedeea21fa429b442e35f79fd2abc1a33.png';
 
 export default function HomePage() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact');
@@ -33,7 +34,7 @@ export default function HomePage() {
       subtext: 'Gentle low-pressure cleaning',
       price: 'From $249',
       description: 'Safe "soft washing" for siding and exterior surfaces. Gentle low-pressure cleaning that protects your home.',
-      image: sidingPhoto
+      image: sidingPhoto.src
     },
     {
       slug: 'deep-cleaning-concrete',
@@ -41,7 +42,7 @@ export default function HomePage() {
       subtext: 'High-pressure deep cleaning',
       price: 'From $149',
       description: 'Professional deep cleaning for concrete surfaces. Remove years of dirt, oil stains, and grime from driveways and walkways.',
-      image: concretePhoto
+      image: concretePhoto.src
     }
   ];
 
@@ -64,7 +65,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white" style={{ maxWidth: '1440px', margin: '0 auto' }}>
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section id="hero" className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 px-6 md:px-12 lg:px-20 py-12 md:py-24 pt-24 md:pt-32" style={{ backgroundColor: '#F8FAFC' }}>
         {/* Left Column - Content */}
@@ -129,7 +130,7 @@ export default function HomePage() {
         <div className="flex items-center order-first md:order-last">
           <div className="w-full h-[300px] md:h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
             <ImageWithFallback
-              src={heroHome}
+              src={heroHome.src}
               alt="Salem Oregon home with concrete driveway and siding — a perfect candidate for Kyra Lee's cleaning services"
               className="w-full h-full object-cover"
             />
@@ -173,7 +174,7 @@ export default function HomePage() {
       </section>
 
       {/* Services Grid Section */}
-      <section className="px-6 md:px-12 lg:px-20 py-12 md:py-20" style={{ backgroundColor: '#F8FAFC' }}>
+      <section id="services" className="px-6 md:px-12 lg:px-20 py-12 md:py-20" style={{ backgroundColor: '#F8FAFC' }}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 md:mb-16">
             <p 
@@ -194,7 +195,7 @@ export default function HomePage() {
             {services.map((service, index) => (
               <div
                 key={index}
-                onClick={() => navigate(`/services/${service.slug}`)}
+                onClick={() => router.push(`/services/${service.slug}`)}
                 className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all cursor-pointer group"
                 style={{ border: '2px solid #E2E8F0' }}
               >
@@ -402,7 +403,7 @@ export default function HomePage() {
           <div className="flex justify-center">
             <div className="w-full max-w-[400px] h-[350px] md:h-[400px] lg:h-[470px] rounded-2xl overflow-hidden shadow-2xl">
               <ImageWithFallback
-                src={kyraPhoto}
+                src={kyraPhoto.src}
                 alt="Kyra Lee, Owner"
                 className="w-full h-full object-cover"
               />

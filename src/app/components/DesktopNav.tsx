@@ -1,6 +1,7 @@
+'use client'
 import { useState, useEffect } from 'react';
 import { Phone } from 'lucide-react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 
 interface DesktopNavProps {
   onGetQuoteClick?: () => void;
@@ -19,11 +20,11 @@ export function DesktopNav({ onGetQuoteClick }: DesktopNavProps) {
   }, []);
 
   const navLinks = [
-    { label: 'Services', href: '#services' },
-    { label: 'How It Works', href: '#how-we-quote' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'About Kyra', href: '#about' },
-    { label: 'FAQ', href: '#faq' }
+    { label: 'Services', href: '/#services' },
+    { label: 'How It Works', href: '/#how-we-quote' },
+    { label: 'Pricing', href: '/#pricing' },
+    { label: 'About Kyra', href: '/#about' },
+    { label: 'FAQ', href: '/#faq' }
   ];
 
   return (
@@ -33,13 +34,11 @@ export function DesktopNav({ onGetQuoteClick }: DesktopNavProps) {
       }`}
       style={{
         backgroundColor: isScrolled ? '#0F172A' : 'rgba(15, 23, 42, 0.95)',
-        maxWidth: '1440px',
-        margin: '0 auto'
       }}
     >
       {/* Logo/Brand */}
       <div className="flex items-center">
-        <Link to="/" className="flex flex-col">
+        <Link href="/" className="flex flex-col">
           <h1
             className="text-lg md:text-xl lg:text-2xl tracking-wide uppercase leading-tight"
             style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 700, color: 'white' }}

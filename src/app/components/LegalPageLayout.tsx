@@ -1,4 +1,5 @@
-import { Link } from 'react-router';
+'use client'
+import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
 interface LegalSection {
@@ -21,7 +22,7 @@ export function LegalPageLayout({ title, subtitle, lastUpdated, sections }: Lega
       <header style={{ backgroundColor: '#0F172A' }}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 pt-8 pb-12 md:pb-16">
           <Link
-            to="/"
+            href="/"
             className="inline-flex items-center gap-2 mb-8 transition-opacity hover:opacity-70"
             style={{ fontFamily: 'Inter, sans-serif', color: '#94A3B8', fontSize: '14px', fontWeight: 500 }}
           >
@@ -106,14 +107,14 @@ export function LegalPageLayout({ title, subtitle, lastUpdated, sections }: Lega
           </p>
           <div className="flex items-center gap-6">
             <Link
-              to="/privacy-policy"
+              href="/privacy-policy"
               style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#94A3B8' }}
               className="hover:opacity-70 transition-opacity"
             >
               Privacy Policy
             </Link>
             <Link
-              to="/terms-of-service"
+              href="/terms-of-service"
               style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#94A3B8' }}
               className="hover:opacity-70 transition-opacity"
             >

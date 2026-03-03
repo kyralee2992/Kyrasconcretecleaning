@@ -101,8 +101,7 @@ export function PricingSection() {
               }`}
               style={{
                 border: tier.popular ? '3px solid #0EA5E9' : '2px solid #E2E8F0',
-                ringColor: tier.popular ? '#0EA5E9' : undefined
-              }}
+              } as React.CSSProperties}
             >
               {/* Popular Badge */}
               {tier.popular && (

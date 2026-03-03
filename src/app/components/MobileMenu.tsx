@@ -1,6 +1,7 @@
-import { X, Phone, ChevronDown } from 'lucide-react';
-import { Link, useLocation } from 'react-router';
-import { useState } from 'react';
+'use client'
+import { X, Phone } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -8,15 +9,9 @@ interface MobileMenuProps {
 }
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
-  const location = useLocation();
-  const [servicesExpanded, setServicesExpanded] = useState(false);
+  const pathname = usePathname();
 
   if (!isOpen) return null;
-
-  const services = [
-    { name: 'Soft Washing (Siding)', slug: 'soft-washing-siding' },
-    { name: 'Deep Cleaning (Concrete)', slug: 'deep-cleaning-concrete' }
-  ];
 
   const handleNavClick = () => {
     onClose();
@@ -24,7 +19,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
   const handleHomeNavClick = (e: React.MouseEvent<HTMLAnchorElement>, hash: string) => {
     // If we're not on the home page, navigate to home first
-    if (location.pathname !== '/') {
+    if (pathname !== '/') {
       return; // Let the Link handle navigation
     }
     
@@ -57,7 +52,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       <div className="flex-1 flex flex-col items-center justify-center space-y-6 px-8 py-20">
         {/* Home */}
         <Link
-          to="/"
+          href="/"
           onClick={handleNavClick}
           className="text-white transition-colors hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 rounded-sm px-2 py-1"
           style={{
@@ -71,52 +66,25 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           Home
         </Link>
 
-        {/* Services with Submenu */}
-        <div className="flex flex-col items-center space-y-4 w-full max-w-md">
-          <button
-            onClick={() => setServicesExpanded(!servicesExpanded)}
-            className="text-white transition-colors hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 rounded-sm px-2 py-1 flex items-center gap-2"
-            style={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 700,
-              fontSize: '32px',
-              textAlign: 'center',
-              '--tw-ring-color': '#0EA5E9'
-            } as React.CSSProperties}
-          >
-            Services
-            <ChevronDown 
-              className={`w-6 h-6 transition-transform ${servicesExpanded ? 'rotate-180' : ''}`} 
-            />
-          </button>
-          
-          {servicesExpanded && (
-            <div className="flex flex-col items-center space-y-3 w-full">
-              {services.map((service) => (
-                <Link
-                  key={service.slug}
-                  to={`/services/${service.slug}`}
-                  onClick={handleNavClick}
-                  className="text-white transition-colors hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 rounded-sm px-2 py-1"
-                  style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontWeight: 600,
-                    fontSize: '20px',
-                    textAlign: 'center',
-                    color: '#0EA5E9',
-                    '--tw-ring-color': '#0EA5E9'
-                  } as React.CSSProperties}
-                >
-                  {service.name}
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Services */}
+        <Link
+          href="/#services"
+          onClick={(e) => handleHomeNavClick(e, '#services')}
+          className="text-white transition-colors hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 rounded-sm px-2 py-1"
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 700,
+            fontSize: '32px',
+            textAlign: 'center',
+            '--tw-ring-color': '#0EA5E9'
+          } as React.CSSProperties}
+        >
+          Services
+        </Link>
 
         {/* How It Works */}
         <Link
-          to="/#how-we-quote"
+          href="/#how-we-quote"
           onClick={(e) => handleHomeNavClick(e, '#how-we-quote')}
           className="text-white transition-colors hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 rounded-sm px-2 py-1"
           style={{
@@ -132,7 +100,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
         {/* Pricing */}
         <Link
-          to="/#pricing"
+          href="/#pricing"
           onClick={(e) => handleHomeNavClick(e, '#pricing')}
           className="text-white transition-colors hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 rounded-sm px-2 py-1"
           style={{
@@ -148,7 +116,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
         {/* About Kyra */}
         <Link
-          to="/#about"
+          href="/#about"
           onClick={(e) => handleHomeNavClick(e, '#about')}
           className="text-white transition-colors hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 rounded-sm px-2 py-1"
           style={{
@@ -164,7 +132,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
         {/* FAQ */}
         <Link
-          to="/#faq"
+          href="/#faq"
           onClick={(e) => handleHomeNavClick(e, '#faq')}
           className="text-white transition-colors hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 rounded-sm px-2 py-1"
           style={{

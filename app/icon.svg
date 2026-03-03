@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Sky blue rounded square -->
+  <rect width="32" height="32" rx="7" fill="#0EA5E9"/>
+  <!-- White water droplet -->
+  <path d="M16 4C16 4 7 15 7 21C7 25.4 11.1 28.5 16 28.5C20.9 28.5 25 25.4 25 21C25 15 16 4 16 4Z" fill="white"/>
+  <!-- Subtle inner highlight for depth -->
+  <ellipse cx="12.8" cy="19" rx="1.6" ry="2.8" fill="#0EA5E9" opacity="0.2" transform="rotate(-15 12.8 19)"/>
+</svg>

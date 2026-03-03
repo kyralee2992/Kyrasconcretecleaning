@@ -1,9 +1,10 @@
+'use client'
 import { useState } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, Loader2, CalendarDays, Clock } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import { useRouter } from 'next/navigation';
 
 export function ContactForm() {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -58,18 +59,35 @@ export function ContactForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (validateForm()) {
-      setIsSubmitting(true);
-      // Mock form submission
-      console.log('Form submitted:', formData);
-      
-      // Navigate to Thank You page
-      navigate('/thank-you');
+
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
+          subject: `New Quote Request from ${formData.name}`,
+          ...formData,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        router.push('/thank-you');
+      } else {
+        setErrors({ form: 'Something went wrong. Please try again or call us directly.' });
+      }
+    } catch {
+      setErrors({ form: 'Something went wrong. Please try again or call us directly.' });
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
     }
   };
 
@@ -494,6 +512,13 @@ export function ContactForm() {
                 placeholder="Surface condition, gate access, specific concerns, etc."
               />
             </div>
+
+            {/* Form-level error */}
+            {errors.form && (
+              <p className="text-sm text-center" style={{ color: '#EF4444', fontFamily: 'Inter, sans-serif' }}>
+                {errors.form}
+              </p>
+            )}
 
             {/* Submit Button */}
             <button

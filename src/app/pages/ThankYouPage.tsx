@@ -1,3 +1,4 @@
+'use client'
 import { CheckCircle, Home, Phone, Mail, Clock } from 'lucide-react';
 import { useEffect } from 'react';
 
