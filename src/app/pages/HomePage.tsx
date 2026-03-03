@@ -138,7 +138,7 @@ export default function HomePage() {
             <ImageWithFallback
               src={heroHome.src}
               alt="Salem Oregon home with concrete driveway and siding — a perfect candidate for Kyra Lee's cleaning services"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover scale-[1.5] origin-top-left"
             />
           </div>
         </div>
@@ -209,7 +209,7 @@ export default function HomePage() {
                   <ImageWithFallback
                     src={service.image}
                     alt={service.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover scale-[1.5] origin-top-left group-hover:scale-[1.6] transition-transform duration-300"
                   />
                 </div>
                 <div className="p-6 space-y-3">
@@ -411,7 +411,7 @@ export default function HomePage() {
               <ImageWithFallback
                 src={kyraPhoto.src}
                 alt="Kyra Lee, Owner"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover scale-[1.5] origin-top-left"
               />
             </div>
           </div>

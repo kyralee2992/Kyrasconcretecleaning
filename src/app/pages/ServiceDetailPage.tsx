@@ -216,7 +216,7 @@ export default function ServiceDetailPage() {
               <ImageWithFallback
                 src={service.image}
                 alt={service.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover scale-[1.5] origin-top-left"
               />
             </div>
           </div>

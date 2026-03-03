@@ -28,8 +28,8 @@ export default function Image() {
             position: 'absolute',
             top: 0,
             left: 0,
-            width: '125%',
-            height: '125%',
+            width: '150%',
+            height: '150%',
           }}
         />
 
