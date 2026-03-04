@@ -1,5 +1,5 @@
 'use client'
-import { Check, Zap, Shield, Mail, Phone, Globe, Clipboard, CalendarCheck } from 'lucide-react';
+import { Check, Zap, Shield, Mail, Phone, Globe, Clipboard, CalendarCheck, ArrowRight, Clock } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { FAQSection } from '../components/FAQSection';
 import { ContactForm } from '../components/ContactForm';
@@ -7,6 +7,8 @@ import { ServiceAreaFooter } from '../components/ServiceAreaFooter';
 import { PricingSection } from '../components/PricingSection';
 import { IPadQuoteSection } from '../components/IPadQuoteSection';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { getRecentArticles } from '../data/articles';
 import kyraPhoto from '@/assets/4738b3753998267d3f673fec1d4a80d90334099c.png';
 import heroHome from '@/assets/acc92dd8ae68382b3c6e165680bd51456c7102cb.png';
 import sidingPhoto from '@/assets/15f88640adfffac6f4c4c23cef1352847d79fa3e.png';
@@ -465,6 +467,88 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Recent Articles Section */}
+      {(() => {
+        const recentArticles = getRecentArticles(3);
+        const categoryColors: Record<string, string> = {
+          'Maintenance Tips': '#0EA5E9',
+          'How-To Guides': '#22C55E',
+          'Stain Removal': '#F59E0B',
+          'Local Salem Tips': '#8B5CF6',
+        };
+        return (
+          <section className="px-6 md:px-12 lg:px-20 py-16 md:py-24" style={{ backgroundColor: '#F8FAFC' }}>
+            <div className="max-w-5xl mx-auto">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+                <div>
+                  <p
+                    className="text-xs tracking-widest uppercase mb-2"
+                    style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 600, color: '#0EA5E9' }}
+                  >
+                    Tips &amp; Guides
+                  </p>
+                  <h2
+                    className="text-3xl md:text-4xl lg:text-5xl tracking-wide uppercase leading-tight"
+                    style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 700, color: '#0F172A' }}
+                  >
+                    LATEST ARTICLES
+                  </h2>
+                </div>
+                <Link
+                  href="/articles"
+                  className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:text-sky-700 shrink-0 cursor-pointer"
+                  style={{ fontFamily: 'Inter, sans-serif', color: '#0EA5E9' }}
+                >
+                  View all articles
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {recentArticles.map((article) => (
+                  <Link
+                    key={article.slug}
+                    href={`/articles/${article.slug}`}
+                    className="group block rounded-xl border border-slate-100 hover:border-sky-200 transition-all duration-300 hover:shadow-lg cursor-pointer p-6 bg-white"
+                  >
+                    <span
+                      className="inline-block text-xs px-2.5 py-1 rounded-full font-semibold mb-4"
+                      style={{
+                        backgroundColor: `${categoryColors[article.category] ?? '#0EA5E9'}18`,
+                        color: categoryColors[article.category] ?? '#0EA5E9',
+                        fontFamily: 'Inter, sans-serif',
+                      }}
+                    >
+                      {article.category}
+                    </span>
+                    <h3
+                      className="text-base md:text-lg tracking-wide uppercase leading-tight mb-3 group-hover:text-sky-600 transition-colors duration-200"
+                      style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 700, color: '#0F172A' }}
+                    >
+                      {article.title}
+                    </h3>
+                    <p
+                      className="text-sm leading-relaxed mb-4 line-clamp-3"
+                      style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}
+                    >
+                      {article.excerpt}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-3.5 h-3.5" style={{ color: '#94A3B8' }} />
+                      <span
+                        className="text-xs"
+                        style={{ fontFamily: 'Inter, sans-serif', color: '#94A3B8' }}
+                      >
+                        {article.readingTime}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* FAQ Section */}
       <FAQSection />

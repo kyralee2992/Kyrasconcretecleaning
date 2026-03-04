@@ -1,8 +1,16 @@
 import { MetadataRoute } from 'next'
+import { articles } from '@/app/data/articles'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://kyrasconcretecleaning.com'
+const siteUrl = 'https://kyraleecleaning.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const articleUrls: MetadataRoute.Sitemap = articles.map((article) => ({
+    url: `${siteUrl}/articles/${article.slug}`,
+    lastModified: new Date(article.publishedAt),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
   return [
     {
       url: siteUrl,
@@ -22,6 +30,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      url: `${siteUrl}/articles`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    ...articleUrls,
     {
       url: `${siteUrl}/privacy-policy`,
       lastModified: new Date(),

@@ -145,6 +145,22 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         >
           FAQ
         </Link>
+
+        {/* Articles */}
+        <Link
+          href="/articles"
+          onClick={handleNavClick}
+          className="text-white transition-colors hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 rounded-sm px-2 py-1"
+          style={{
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 700,
+            fontSize: '32px',
+            textAlign: 'center',
+            '--tw-ring-color': '#0EA5E9'
+          } as React.CSSProperties}
+        >
+          Articles
+        </Link>
       </div>
 
       {/* CTA Button - Bottom */}

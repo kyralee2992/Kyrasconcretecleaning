@@ -24,7 +24,8 @@ export function DesktopNav({ onGetQuoteClick }: DesktopNavProps) {
     { label: 'How It Works', href: '/#how-we-quote' },
     { label: 'Pricing', href: '/#pricing' },
     { label: 'About Kyra', href: '/#about' },
-    { label: 'FAQ', href: '/#faq' }
+    { label: 'FAQ', href: '/#faq' },
+    { label: 'Articles', href: '/articles' }
   ];
 
   return (
@@ -57,19 +58,35 @@ export function DesktopNav({ onGetQuoteClick }: DesktopNavProps) {
       {/* Navigation Links - Desktop Only */}
       <div className="hidden md:flex items-center gap-8">
         {navLinks.map((link, index) => (
-          <a
-            key={index}
-            href={link.href}
-            className="text-white hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-1 transition-all"
-            style={{
-              fontFamily: 'Inter, sans-serif',
-              fontWeight: 500,
-              fontSize: '15px',
-              '--tw-ring-color': '#0EA5E9'
-            } as React.CSSProperties}
-          >
-            {link.label}
-          </a>
+          link.href.startsWith('/') && !link.href.startsWith('/#') ? (
+            <Link
+              key={index}
+              href={link.href}
+              className="text-white hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-1 transition-all"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 500,
+                fontSize: '15px',
+                '--tw-ring-color': '#0EA5E9'
+              } as React.CSSProperties}
+            >
+              {link.label}
+            </Link>
+          ) : (
+            <a
+              key={index}
+              href={link.href}
+              className="text-white hover:text-opacity-70 focus:text-opacity-70 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-transparent rounded-sm px-1 transition-all"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 500,
+                fontSize: '15px',
+                '--tw-ring-color': '#0EA5E9'
+              } as React.CSSProperties}
+            >
+              {link.label}
+            </a>
+          )
         ))}
       </div>
 
