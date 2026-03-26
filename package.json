@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:security": "jest --testPathPatterns=__tests__/security --forceExit"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

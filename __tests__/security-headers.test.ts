@@ -1,4 +1,6 @@
 /**
+ * @jest-environment node
+ *
  * H1/H2 — Security headers + CSP
  *
  * These tests verify that next.config.ts returns the required security headers
@@ -60,4 +62,15 @@ describe('Security Headers (H1/H2)', () => {
       expect(headers['Content-Security-Policy']).toContain(directive)
     })
   }
+
+  // Next.js injects inline scripts during hydration, so 'unsafe-inline' in
+  // script-src is a known framework limitation. This test makes any future
+  // removal (or accidental re-addition) visible in the diff.
+  it("CSP script-src contains 'unsafe-inline' (known Next.js limitation — see SECURITY.md)", () => {
+    expect(headers['Content-Security-Policy']).toContain("'unsafe-inline'")
+  })
+
+  it("CSP script-src does NOT contain 'unsafe-eval'", () => {
+    expect(headers['Content-Security-Policy']).not.toContain("'unsafe-eval'")
+  })
 })

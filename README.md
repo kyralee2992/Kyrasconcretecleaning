@@ -1,4 +1,5 @@
 # Kyra Lee's Concrete Cleaning
+![Coverage](https://img.shields.io/badge/coverage-98%25-brightgreen)
 
 Business website for Kyra Lee's Concrete Cleaning — a pressure washing and soft washing service based in Salem, Oregon.
 

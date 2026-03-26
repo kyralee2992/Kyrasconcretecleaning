@@ -19,7 +19,6 @@ export function ContactForm() {
     message: '',
   });
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -120,40 +119,6 @@ export function ContactForm() {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
   };
-
-  if (isSubmitted) {
-    return (
-      <section id="contact" className="px-6 md:px-12 lg:px-20 py-12 md:py-20" style={{ backgroundColor: 'white' }}>
-        <div className="max-w-2xl mx-auto text-center">
-          <div
-            className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
-            style={{ backgroundColor: '#22C55E' }}
-          >
-            <CheckCircle className="w-10 h-10 text-white" strokeWidth={2.5} />
-          </div>
-          <h2
-            className="text-3xl md:text-4xl lg:text-5xl tracking-wide uppercase mb-4"
-            style={{ fontFamily: 'Oswald, sans-serif', fontWeight: 700, color: '#0F172A' }}
-          >
-            THANK YOU!
-          </h2>
-          <p
-            className="text-lg md:text-xl leading-relaxed mb-6"
-            style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}
-          >
-            We've received your quote request and will get back to you within 2 hours during business hours.
-          </p>
-          <p
-            className="text-base leading-relaxed"
-            style={{ fontFamily: 'Inter, sans-serif', color: '#64748B' }}
-          >
-            Need an immediate response? Call or text us at{' '}
-            <span style={{ color: '#0EA5E9', fontWeight: 600 }}>(971) 510-0926</span>
-          </p>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section id="contact" className="px-6 md:px-12 lg:px-20 py-12 md:py-20" style={{ backgroundColor: 'white' }}>
