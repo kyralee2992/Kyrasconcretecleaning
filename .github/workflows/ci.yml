@@ -28,13 +28,13 @@ jobs:
         run: npm ci
 
       - name: Lint
-        run: npm run lint --if-present
+        run: npm run lint
 
       - name: Unit tests
         run: npm test
 
       - name: Security tests
-        run: npm run test:security --if-present
+        run: npm run test:security
 
       - name: Upload coverage
         if: matrix.node-version == '20.x'

@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint src app",
     "test:security": "jest --testPathPatterns=__tests__/security --forceExit"
   },
   "dependencies": {
@@ -76,6 +76,8 @@
     "@types/node": "22.15.29",
     "@types/react": "18.3.23",
     "@types/react-dom": "18.3.7",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.1",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
     "tailwindcss": "4.1.12",
