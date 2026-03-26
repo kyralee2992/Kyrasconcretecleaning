@@ -1,10 +1,13 @@
 'use client'
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, Loader2, CalendarDays, Clock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
+const SUBMIT_COOLDOWN_MS = 3000
+
 export function ContactForm() {
   const router = useRouter();
+  const lastSubmitRef = useRef<number>(0);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -49,6 +52,8 @@ export function ContactForm() {
 
     if (!formData.phone.trim()) {
       newErrors.phone = 'Phone number is required';
+    } else if (formData.phone.replace(/\D/g, '').length < 10) {
+      newErrors.phone = 'Please enter a valid phone number (at least 10 digits)';
     }
 
     if (!formData.serviceType) {
@@ -62,9 +67,16 @@ export function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const now = Date.now();
+    if (now - lastSubmitRef.current < SUBMIT_COOLDOWN_MS) return;
+
     if (!validateForm()) return;
 
+    lastSubmitRef.current = now;
     setIsSubmitting(true);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
@@ -75,7 +87,15 @@ export function ContactForm() {
           subject: `New Quote Request from ${formData.name}`,
           ...formData,
         }),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        setErrors({ form: 'Something went wrong. Please try again or call us directly.' });
+        return;
+      }
 
       const result = await response.json();
 
@@ -85,6 +105,7 @@ export function ContactForm() {
         setErrors({ form: 'Something went wrong. Please try again or call us directly.' });
       }
     } catch {
+      clearTimeout(timeoutId);
       setErrors({ form: 'Something went wrong. Please try again or call us directly.' });
     } finally {
       setIsSubmitting(false);
