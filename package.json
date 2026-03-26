@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint src app",
+    "test": "jest --forceExit",
     "test:security": "jest --testPathPatterns=__tests__/security --forceExit"
   },
   "dependencies": {
