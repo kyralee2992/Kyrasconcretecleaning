@@ -1,5 +1,11 @@
+import type { Enrichment } from './enrichment';
+
 export type LeadStatus =
   | 'new'
+  | 'enriching'
+  | 'enriched'
+  | 'drafted'
+  | 'approved'
   | 'quoted'
   | 'accepted'
   | 'rejected'
@@ -7,8 +13,19 @@ export type LeadStatus =
 
 export interface Lead {
   id: string;
+  clientName: string;
   address: string;
+  phone?: string;
+  email: string;
   requestedService: string;
   status: LeadStatus;
+  enrichment?: Enrichment;
+  quoteId?: string;
+  draftedAt?: string;
+  approvedAt?: string;
+  approvedBy?: string;
+  rejectedAt?: string;
+  rejectionReason?: string;
   createdAt: string;
+  updatedAt: string;
 }
