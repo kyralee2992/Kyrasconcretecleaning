@@ -1,0 +1,16 @@
+{
+  "_comment": "Reference-only Firestore composite-index spec for the /api/leads dedupe query. NOT deployed from this repo's firebase.json (which is scoped to functions only) to avoid clobbering snapbid's console-managed indexes. Create via: (a) Firebase Console → Firestore → Indexes → Create, (b) click the auto-generated link Firestore emits in the /api/leads error log on the first production query, or (c) firebase deploy --only firestore:indexes --config path/to/separate/config.json.",
+  "indexes": [
+    {
+      "collectionGroup": "leads",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "emailLower", "order": "ASCENDING" },
+        { "fieldPath": "addressNormalized", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
