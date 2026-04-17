@@ -1,0 +1,36 @@
+{
+  "name": "functions",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Firebase Cloud Functions for the Kyra Lee autonomous quoting engine",
+  "main": "lib/index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "clean": "rm -rf lib",
+    "lint": "eslint src",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.90.0",
+    "@kyralee/shared-core": "*",
+    "firebase-admin": "^13.8.0",
+    "firebase-functions": "^7.2.5",
+    "stripe": "^22.0.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "22.15.29",
+    "jest": "^30.3.0",
+    "ts-jest": "^29.4.6",
+    "typescript": "5.8.3"
+  }
+}
