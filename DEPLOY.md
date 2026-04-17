@@ -4,8 +4,9 @@ This file documents the one-time setup and the repeatable deploy for the
 kyralee autonomous-quoting-engine backend. It covers two surfaces:
 
 1. **Vercel** — hosts the Next.js site (marketing + `/api/leads` route handler).
-2. **Firebase** — hosts Cloud Functions (`healthCheck`, `onLeadCreated`) and
-   the shared Firestore database inside the `snapbid-eb2c8` project.
+2. **Firebase** — hosts Cloud Functions (`healthCheck`, `onLeadCreated`,
+   `onLeadEnriched`) and the shared Firestore database inside the
+   `snapbid-eb2c8` project.
 
 Frontend auto-deploys on every push to `main` via the Vercel GitHub
 integration. Functions deploy only when you run the script below.
@@ -17,8 +18,9 @@ integration. Functions deploy only when you run the script below.
 ### 1. Firebase — Blaze plan
 
 The `onLeadCreated` trigger calls external HTTP APIs (Nominatim, Marion
-County GIS). External HTTP calls from Cloud Functions require the **Blaze
-(pay-as-you-go) plan**. Spark (free) will reject the deploy.
+County GIS). The `onLeadEnriched` trigger calls Anthropic. External HTTP
+calls from Cloud Functions require the **Blaze (pay-as-you-go) plan**.
+Spark (free) will reject the deploy.
 
 - Firebase Console → `snapbid-eb2c8` → Upgrade → **Blaze**.
 - Set a billing alert / budget cap (recommended $10/month — our volume is
@@ -45,6 +47,26 @@ write leads into Firestore. It needs a service account credential.
   you run `npm run dev`.
 
 Never commit this value.
+
+### 2b. Firebase — Anthropic API key (Secret Manager)
+
+The `onLeadEnriched` trigger calls Anthropic (Claude Sonnet 4.6) to
+draft quotes. We use Firebase Secret Manager rather than a plain env
+var — rotatable, audited, and never exposed to client-side code.
+
+```sh
+# Set the secret once (CLI will prompt for the value). Rotate by
+# re-running the same command with a new value.
+firebase functions:secrets:set ANTHROPIC_API_KEY --project snapbid-eb2c8
+
+# Verify:
+firebase functions:secrets:access ANTHROPIC_API_KEY --project snapbid-eb2c8
+```
+
+The trigger declares `secrets: [ANTHROPIC_API_KEY]` in code, so the next
+`firebase deploy --only functions` will bind the secret at runtime.
+Local emulator runs don't need the secret (tests mock the Anthropic
+client).
 
 ### 3. Firestore — composite index for the dedupe query
 
@@ -112,15 +134,21 @@ What it does:
 # HTTP healthCheck
 curl "https://us-central1-snapbid-eb2c8.cloudfunctions.net/healthCheck"
 
-# Firestore trigger — seed a doc from the Firebase console at
+# End-to-end trigger chain — seed a doc from the Firebase console at
 #   leads/test-smoke
 # with fields { status: "new", address: "900 Court St NE, Salem, OR",
 #               clientName: "Smoke", email: "smoke@example.com",
-#               requestedService: "soft-washing",
+#               requestedService: "Deep Cleaning (Concrete)",
 #               createdAt: "<now ISO>", updatedAt: "<now ISO>" }
-# Within ~30 s the doc should flip to status: "enriched" with an
-# enrichment.geocode block. Tail logs live:
-firebase functions:log --only onLeadCreated --follow
+#
+# Expected sequence within ~60 s:
+#   1. onLeadCreated fires: status new → enriching → enriched
+#      (with enrichment.geocode + enrichment.parcel)
+#   2. onLeadEnriched fires: status enriched → drafting → drafted
+#      (quoteId populated, new doc at quotes/<id>)
+#
+# Tail both triggers' logs live:
+firebase functions:log --only onLeadCreated,onLeadEnriched --follow
 ```
 
 ---
@@ -130,7 +158,8 @@ firebase functions:log --only onLeadCreated --follow
 Functions:
 ```sh
 firebase functions:list --project snapbid-eb2c8
-firebase functions:delete onLeadCreated --project snapbid-eb2c8   # if needed
+firebase functions:delete onLeadCreated --project snapbid-eb2c8    # if needed
+firebase functions:delete onLeadEnriched --project snapbid-eb2c8   # if needed
 ```
 
 A previous revision can be rolled back from the Firebase console
@@ -144,6 +173,7 @@ build.
 
 ## Current deploy state
 
-As of the 2c PR merging, neither function has been deployed yet. The
-code is merge-ready; deploy is an owner-triggered action. When you are
-ready, run the script above.
+As of the 2d PR merging, none of the three functions (`healthCheck`,
+`onLeadCreated`, `onLeadEnriched`) have been deployed yet. The code is
+merge-ready; deploy is an owner-triggered action. When you are ready,
+run the script above.

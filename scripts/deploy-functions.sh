@@ -39,7 +39,7 @@ fi
 cat <<EOF
 About to deploy Cloud Functions.
   Project:    $PROJECT_ID
-  Functions:  healthCheck, onLeadCreated
+  Functions:  healthCheck, onLeadCreated, onLeadEnriched
   Source:     apps/functions (Node.js 22)
 EOF
 
