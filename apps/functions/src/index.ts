@@ -8,3 +8,5 @@ export const healthCheck = onRequest((_req, res) => {
   const sample: Pick<Lead, 'status'> = { status: 'new' };
   res.status(200).json({ ok: true, leadStatus: sample.status });
 });
+
+export { onLeadCreated } from './triggers/on-lead-created';

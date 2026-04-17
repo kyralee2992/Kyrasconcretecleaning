@@ -23,6 +23,7 @@ export interface Lead {
   message?: string;
   status: LeadStatus;
   enrichment?: Enrichment;
+  enrichmentWarnings?: string[];
   quoteId?: string;
   draftedAt?: string;
   approvedAt?: string;

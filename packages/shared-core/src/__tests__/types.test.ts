@@ -95,6 +95,19 @@ describe('shared-core Lead contract', () => {
     expect(lead.quoteId).toBe('quote_1');
   });
 
+  it('captures enrichment warnings when partial data was fetched', () => {
+    const lead: Lead = {
+      ...baseLead('enriched'),
+      enrichmentWarnings: [
+        'marion-parcels-no-match',
+        'marion-zoning-no-match',
+      ],
+    };
+
+    expect(lead.enrichmentWarnings).toHaveLength(2);
+    expect(lead.enrichmentWarnings?.[0]).toBe('marion-parcels-no-match');
+  });
+
   it('carries optional capture fields from the website form', () => {
     const lead: Lead = {
       ...baseLead('new'),
