@@ -10,3 +10,4 @@ export const healthCheck = onRequest((_req, res) => {
 });
 
 export { onLeadCreated } from './triggers/on-lead-created';
+export { onLeadEnriched } from './triggers/on-lead-enriched';

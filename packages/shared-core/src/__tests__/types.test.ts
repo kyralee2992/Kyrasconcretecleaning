@@ -95,6 +95,19 @@ describe('shared-core Lead contract', () => {
     expect(lead.quoteId).toBe('quote_1');
   });
 
+  it('captures a draftingError for a lead whose AI draft pass failed', () => {
+    const lead: Lead = {
+      ...baseLead('enriched'),
+      draftingError: 'anthropic-rate-limit: retry after 60s',
+    };
+    expect(lead.draftingError).toMatch(/rate-limit/);
+  });
+
+  it('accepts the drafting transitional status', () => {
+    const lead: Lead = baseLead('drafting');
+    expect(lead.status).toBe('drafting');
+  });
+
   it('captures enrichment warnings when partial data was fetched', () => {
     const lead: Lead = {
       ...baseLead('enriched'),
@@ -140,6 +153,8 @@ describe('shared-core Quote contract', () => {
       totalCents: lineItems.reduce((sum, item) => sum + item.amountCents, 0),
       currency: 'usd',
       draftSource: 'autonomous',
+      draftReasoning:
+        'Concrete surface ~1000 sqft at $0.15/sqft = $150. Rounded to minimum project of $149.',
       approvalStatus: 'draft',
       createdAt: now,
       updatedAt: now,
@@ -148,6 +163,7 @@ describe('shared-core Quote contract', () => {
     expect(draft.stripePaymentUrl).toBeUndefined();
     expect(draft.approvalStatus).toBe('draft');
     expect(draft.draftSource).toBe('autonomous');
+    expect(draft.draftReasoning).toMatch(/\$0\.15\/sqft/);
   });
 
   it('accepts an approved Quote with payment URL and approval metadata', () => {

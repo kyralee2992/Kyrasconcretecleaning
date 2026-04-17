@@ -4,6 +4,7 @@ export type LeadStatus =
   | 'new'
   | 'enriching'
   | 'enriched'
+  | 'drafting'
   | 'drafted'
   | 'approved'
   | 'quoted'
@@ -24,6 +25,7 @@ export interface Lead {
   status: LeadStatus;
   enrichment?: Enrichment;
   enrichmentWarnings?: string[];
+  draftingError?: string;
   quoteId?: string;
   draftedAt?: string;
   approvedAt?: string;
