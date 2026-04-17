@@ -77,35 +77,60 @@ export function ContactForm() {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    try {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
-          subject: `New Quote Request from ${formData.name}`,
-          ...formData,
-        }),
-        signal: controller.signal,
-      });
+    const leadsPayload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address,
+      serviceType: formData.serviceType,
+      preferredDate: formData.preferredDate,
+      preferredTime: formData.preferredTime,
+      message: formData.message,
+    };
 
+    const postLeads = async (): Promise<boolean> => {
+      try {
+        const res = await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(leadsPayload),
+          signal: controller.signal,
+        });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    };
+
+    const postWeb3Forms = async (): Promise<boolean> => {
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
+            subject: `New Quote Request from ${formData.name}`,
+            ...formData,
+          }),
+          signal: controller.signal,
+        });
+        if (!res.ok) return false;
+        const result = await res.json();
+        return !!result.success;
+      } catch {
+        return false;
+      }
+    };
+
+    try {
+      const [leadsOk, web3Ok] = await Promise.all([postLeads(), postWeb3Forms()]);
       clearTimeout(timeoutId);
 
-      if (!response.ok) {
-        setErrors({ form: 'Something went wrong. Please try again or call us directly.' });
-        return;
-      }
-
-      const result = await response.json();
-
-      if (result.success) {
+      if (leadsOk || web3Ok) {
         router.push('/thank-you');
       } else {
         setErrors({ form: 'Something went wrong. Please try again or call us directly.' });
       }
-    } catch {
-      clearTimeout(timeoutId);
-      setErrors({ form: 'Something went wrong. Please try again or call us directly.' });
     } finally {
       setIsSubmitting(false);
     }

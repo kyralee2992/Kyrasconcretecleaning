@@ -120,11 +120,15 @@ describe('ContactForm — submission outcomes', () => {
     expect(mockPush).toHaveBeenCalledWith('/thank-you')
   })
 
-  it('shows error when API returns success:false with HTTP 200', async () => {
-    global.fetch = jest.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({ success: false }),
-    })
+  it('shows error when both /api/leads and web3forms fail', async () => {
+    // /api/leads returns !ok AND web3forms returns {ok:true, success:false}
+    global.fetch = jest.fn().mockImplementation((url: RequestInfo | URL) => {
+      const u = typeof url === 'string' ? url : url.toString()
+      if (u.includes('/api/leads')) {
+        return Promise.resolve({ ok: false, status: 500, json: async () => ({}) })
+      }
+      return Promise.resolve({ ok: true, json: async () => ({ success: false }) })
+    }) as jest.Mock
     render(<ContactForm />)
     await act(async () => {
       fillValid()

@@ -18,6 +18,9 @@ export interface Lead {
   phone?: string;
   email: string;
   requestedService: string;
+  preferredDate?: string;
+  preferredTime?: string;
+  message?: string;
   status: LeadStatus;
   enrichment?: Enrichment;
   quoteId?: string;
