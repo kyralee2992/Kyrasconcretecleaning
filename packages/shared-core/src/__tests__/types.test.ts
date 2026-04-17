@@ -83,6 +83,19 @@ describe('shared-core Lead contract', () => {
     expect(lead.approvedBy).toBe('uid_kyra');
     expect(lead.quoteId).toBe('quote_1');
   });
+
+  it('carries optional capture fields from the website form', () => {
+    const lead: Lead = {
+      ...baseLead('new'),
+      preferredDate: '2026-05-02',
+      preferredTime: 'Morning (8am–11am)',
+      message: 'Side gate code is 1234; dog in backyard.',
+    };
+
+    expect(lead.preferredDate).toBe('2026-05-02');
+    expect(lead.preferredTime).toMatch(/Morning/);
+    expect(lead.message).toContain('1234');
+  });
 });
 
 describe('shared-core Quote contract', () => {
