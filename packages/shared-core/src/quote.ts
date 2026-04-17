@@ -16,6 +16,7 @@ export interface Quote {
   currency: 'usd';
   stripePaymentUrl?: string;
   draftSource: QuoteDraftSource;
+  draftReasoning?: string;
   approvalStatus: QuoteApprovalStatus;
   approvedBy?: string;
   approvedAt?: string;
