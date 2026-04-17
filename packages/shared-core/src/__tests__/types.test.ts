@@ -53,9 +53,18 @@ describe('shared-core Lead contract', () => {
         source: 'nominatim',
       },
       parcel: {
-        parcelId: '073W27BC-03100',
+        parcelId: '073W27BC03100',
+        accountId: 'R12345',
+        situs: '123 MAIN ST',
+        situsCsz: 'SALEM, OR, 97301',
+        lotSizeAcres: 0.1653,
         lotSizeSqFt: 7200,
+        buildingAreaSqFt: 1850,
+        livingAreaSqFt: 1600,
         zoningCode: 'RS',
+        zoningDescription: 'Residential Single Family',
+        propertyClass: 'RESIDENTIAL 1-3 UNITS',
+        yearBuilt: 1978,
         source: 'marion-county-gis',
       },
       buildingFootprintSqFt: 1850,
@@ -68,6 +77,8 @@ describe('shared-core Lead contract', () => {
     };
 
     expect(lead.enrichment?.parcel?.lotSizeSqFt).toBe(7200);
+    expect(lead.enrichment?.parcel?.buildingAreaSqFt).toBe(1850);
+    expect(lead.enrichment?.parcel?.yearBuilt).toBe(1978);
     expect(lead.enrichment?.geocode?.source).toBe('nominatim');
   });
 
