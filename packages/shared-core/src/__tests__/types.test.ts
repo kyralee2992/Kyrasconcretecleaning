@@ -53,9 +53,18 @@ describe('shared-core Lead contract', () => {
         source: 'nominatim',
       },
       parcel: {
-        parcelId: '073W27BC-03100',
+        parcelId: '073W27BC03100',
+        accountId: 'R12345',
+        situs: '123 MAIN ST',
+        situsCsz: 'SALEM, OR, 97301',
+        lotSizeAcres: 0.1653,
         lotSizeSqFt: 7200,
+        buildingAreaSqFt: 1850,
+        livingAreaSqFt: 1600,
         zoningCode: 'RS',
+        zoningDescription: 'Residential Single Family',
+        propertyClass: 'RESIDENTIAL 1-3 UNITS',
+        yearBuilt: 1978,
         source: 'marion-county-gis',
       },
       buildingFootprintSqFt: 1850,
@@ -68,6 +77,8 @@ describe('shared-core Lead contract', () => {
     };
 
     expect(lead.enrichment?.parcel?.lotSizeSqFt).toBe(7200);
+    expect(lead.enrichment?.parcel?.buildingAreaSqFt).toBe(1850);
+    expect(lead.enrichment?.parcel?.yearBuilt).toBe(1978);
     expect(lead.enrichment?.geocode?.source).toBe('nominatim');
   });
 
@@ -82,6 +93,19 @@ describe('shared-core Lead contract', () => {
 
     expect(lead.approvedBy).toBe('uid_kyra');
     expect(lead.quoteId).toBe('quote_1');
+  });
+
+  it('captures enrichment warnings when partial data was fetched', () => {
+    const lead: Lead = {
+      ...baseLead('enriched'),
+      enrichmentWarnings: [
+        'marion-parcels-no-match',
+        'marion-zoning-no-match',
+      ],
+    };
+
+    expect(lead.enrichmentWarnings).toHaveLength(2);
+    expect(lead.enrichmentWarnings?.[0]).toBe('marion-parcels-no-match');
   });
 
   it('carries optional capture fields from the website form', () => {
